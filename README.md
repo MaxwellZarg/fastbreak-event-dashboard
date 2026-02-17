@@ -80,6 +80,11 @@ Start:
 npm run dev
 ```
 
+
+## Final thoughts
+
+This was a fun one to build. I take a lot of pride in creating interfaces that are simple, clean, and just work. Anything sports related I'm going to put extra effort into. That's where my passion is. I enjoy assessments like this because they let me prove what I can build on my own, and I enjoy being able to talk about the work just as much as doing it! Thanks!
+
 ## Structure
 
 ```
