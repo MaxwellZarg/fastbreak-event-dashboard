@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Calendar, MapPin, Pencil, ArrowLeft, FileText } from "lucide-react";
 import { format } from "date-fns";
 import { sportColorMap } from "@/lib/types";
@@ -78,7 +79,8 @@ export default async function EventDetailPage({
               </div>
             )}
 
-            <div className="flex items-center gap-2 pt-2 border-t">
+            <Separator />
+            <div className="flex items-center gap-2 pt-2">
               <Button size="sm" className="gap-1.5" asChild>
                 <Link href={`/events/${event.id}/edit`}>
                   <Pencil className="h-3.5 w-3.5" />

@@ -21,7 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, X } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon, Plus, X } from "lucide-react";
+import { format, parse } from "date-fns";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { createEvent, updateEvent, deleteEvent } from "@/lib/actions/events";
 import {
@@ -166,15 +174,76 @@ export function EventForm({ event, mode }: EventFormProps) {
         <FormField
           control={form.control}
           name="dateTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Date and time</FormLabel>
-              <FormControl>
-                <Input type="datetime-local" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const dateValue = field.value
+              ? parse(field.value, "yyyy-MM-dd'T'HH:mm", new Date())
+              : undefined;
+            const timeValue = field.value ? field.value.slice(11, 16) : "";
+
+            function handleDateSelect(day: Date | undefined) {
+              if (!day) return;
+              const time = timeValue || "12:00";
+              field.onChange(format(day, "yyyy-MM-dd") + "T" + time);
+            }
+
+            function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
+              const time = e.target.value;
+              if (dateValue && !isNaN(dateValue.getTime())) {
+                field.onChange(format(dateValue, "yyyy-MM-dd") + "T" + time);
+              } else {
+                field.onChange(format(new Date(), "yyyy-MM-dd") + "T" + time);
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Date and time</FormLabel>
+                <div className="flex gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !dateValue && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {dateValue && !isNaN(dateValue.getTime())
+                            ? format(dateValue, "MMM d, yyyy")
+                            : "Pick a date"}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={
+                          dateValue && !isNaN(dateValue.getTime())
+                            ? dateValue
+                            : undefined
+                        }
+                        onSelect={handleDateSelect}
+                        defaultMonth={
+                          dateValue && !isNaN(dateValue.getTime())
+                            ? dateValue
+                            : new Date()
+                        }
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <Input
+                    type="time"
+                    value={timeValue}
+                    onChange={handleTimeChange}
+                    className="w-32 shrink-0"
+                  />
+                </div>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         <FormField
@@ -197,7 +266,7 @@ export function EventForm({ event, mode }: EventFormProps) {
 
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Venues</label>
+            <FormLabel>Venues</FormLabel>
             <Button
               type="button"
               variant="outline"

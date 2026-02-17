@@ -75,7 +75,7 @@ export function EventsView({ events, hasFilters }: EventsViewProps) {
                 Calendar
               </Button>
             </PopoverTrigger>
-          <PopoverContent className="w-auto p-3" align="end">
+          <PopoverContent className="w-auto p-0" align="end">
             <EventCalendarPopover
               events={events}
               selectedDate={selectedDate}

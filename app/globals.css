@@ -90,3 +90,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Event dot indicator on calendar days */
+td.has-event {
+  position: relative;
+}
+
+td.has-event::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  z-index: 1;
+  pointer-events: none;
+}
+
+td.has-event[data-selected="true"]::after {
+  background-color: var(--primary-foreground);
+}
