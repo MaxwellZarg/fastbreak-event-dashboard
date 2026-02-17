@@ -2,7 +2,7 @@
 
 Full-stack sports event management app. Sign up, create events with venues, search and filter, edit, delete. Built with Next.js 16, Supabase, and shadcn/ui.
 
-Live @ Vercel
+Live: https://fastbreak-event-dashboard-nine.vercel.app
 
 ## Stack
 
