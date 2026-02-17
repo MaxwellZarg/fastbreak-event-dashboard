@@ -16,7 +16,7 @@ Live: https://fastbreak-event-dashboard-nine.vercel.app
 
 Middleware checks for a Supabase session on every request. No session = redirect to `/login`. Auth supports email/password and Google OAuth.
 
-Dashboard is a Server Component. Search and filter update the URL params, not React state. When the URL changes, the server component re-renders and runs a fresh Supabase query. So filtering actually hits the database every time — it's not just hiding cards client-side.
+Dashboard is a Server Component. Search and filter update the URL params, not React state. When the URL changes, the server component re-renders and runs a fresh Supabase query. So filtering actually hits the database every time, it's not just hiding cards client-side.
 
 Events and venues are separate tables. Venues have a foreign key to events with cascade delete so nothing gets orphaned.
 
@@ -57,7 +57,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
 
 Supabase tables:
 
-```sql
+```
 create table events (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users(id) on delete cascade not null,
@@ -79,7 +79,6 @@ Start:
 ```
 npm run dev
 ```
-
 
 ## Final thoughts
 
